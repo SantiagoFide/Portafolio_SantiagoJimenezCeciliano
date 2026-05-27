@@ -1,0 +1,160 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 27 may 2026, 1:35:36
+    Author     : compr
+*/
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    background-color: #111111;
+    color: #000000;
+}
+
+header {
+    background-color: #625cff;
+    min-height: 88px;
+}
+
+nav {
+    width: 100%;
+    min-height: 88px;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.nav-menu {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 12px;
+    list-style: none;
+}
+
+.nav-link {
+    color: #ffffff;
+}
+
+.menu-item {
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: #0b7f12;
+    border-radius: 6px;
+    text-decoration: none;
+    line-height: 1;
+}
+
+.menu-item:hover {
+    background-color: #075c0d;
+}
+
+aside {
+    position: relative;
+    float: left;
+    width: 20%;
+    min-height: 260px;
+    padding: 18px 12px;
+    background-color: #ffe5bd;
+}
+
+section {
+    position: relative;
+    float: left;
+    width: 80%;
+    min-height: 260px;
+    padding: 18px 8px;
+    background-color: #db8095;
+}
+
+section h2,
+aside h1 {
+    margin-top: 0;
+}
+
+section img {
+    display: block;
+    max-width: 300px;
+    width: 100%;
+    height: auto;
+    margin-bottom: 24px;
+}
+
+aside::after,
+section::after {
+    position: absolute;
+    top: 50%;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.55);
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 34px;
+    line-height: 40px;
+    text-align: center;
+}
+
+aside::after {
+    content: "\2039";
+    right: 30%;
+}
+
+section::after {
+    content: "\203A";
+    right: 10%;
+}
+
+footer {
+    clear: both;
+    padding: 3px 0;
+    border-top: 5px solid #000000;
+    background-color: #000000;
+    color: #ffffff;
+    font-size: 10px;
+    text-align: center;
+}
+
+@media (max-width: 700px) {
+    nav {
+        min-height: auto;
+        padding: 16px 12px;
+        align-items: flex-start;
+        gap: 14px;
+        flex-direction: column;
+    }
+
+    .nav-menu {
+        flex-wrap: wrap;
+    }
+
+    aside,
+    section {
+        float: none;
+        width: 100%;
+        min-height: 180px;
+    }
+
+    aside::after,
+    section::after {
+        display: none;
+    }
+}
+
