@@ -12,7 +12,7 @@
     </parent>
 
     <groupId>TechShop</groupId>
-    <artifactId>Joseph</artifactId>
+    <artifactId>Santiago</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>TechShop</name>
     <description/>
@@ -34,7 +34,7 @@
     </scm>
 
     <properties>
-        <java.version>23</java.version>
+        <java.version>17</java.version>
     </properties>
 
     <dependencies>
