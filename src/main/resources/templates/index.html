@@ -1,57 +1,32 @@
 <!DOCTYPE html>
-<!-- Mi primera página HTML del curso -->
 
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>TechShop</title>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
-    <link href="/css/estilos.css" 
-          rel="stylesheet" 
-          type="text/css">
-</head>
+    <head th:replace="~{general/fragmentos :: head}"
+    </head>
 
-<body>
+    <body>
 
-    <header>
-        <nav>
-            <a class="logo nav-link" href="/">
-                TechShop
-            </a>
+        <header th:replace="~{general/fragmentos :: header}"/>
 
-            <ul class="nav-menu">
+        <section class="bg-success text-white text-center p-4">
 
-                <li class="nav-menu-item">
-                    <a class="nav-link menu-item" href="/ejemplo2">
-                        Mis Autos
-                    </a>
-                </li>
+            <h1>
+                <i class="fa-solid fa-gear"></i>
 
-                <li class="nav-menu-item">
-                    <a class="nav-link menu-item" href="/multimedia">
-                        Multimedia
-                    </a>
-                </li>
+                <span th:text="#{plantilla.tienda}">
+                    Su tienda en línea
+                </span>
+            </h1>
 
-                <li class="nav-menu-item">
-                    <a class="nav-link menu-item" href="/iframes">
-                        iFrames
-                    </a>
-                </li>
+        </section>
 
-            </ul>
-        </nav>
-    </header>
+        <br/>
 
-    <section>
-        <h2>
-            Esta es la tienda en línea del curso
-        </h2>
-    </section>
+        <footer th:replace="~{general/fragmentos :: footer}"/>
 
-    <footer>
-        Todos los Derechos Reservados TechShop 2025 &COPY;
-    </footer>
+    </body>
 
-</body>
 </html>
