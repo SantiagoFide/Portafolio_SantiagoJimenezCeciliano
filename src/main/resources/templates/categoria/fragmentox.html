@@ -1,0 +1,146 @@
+<!-- fragmento 1 para Agregar categoria en ventana modal -->
+<section th:fragment="agregar">
+
+    <!-- Button trigger modal -->
+    <div class="row py-4 mb-2 bg-light">
+
+        <div class="col-md-1"></div>
+
+        <div class="col-md-3">
+
+            <button type="button"
+                    class="btn btn-primary"
+                    sec:authorize="hasRole('ROLE_ADMIN')"
+                    data-bs-toggle="modal"
+                    data-bs-target="#agregarCategoriaModal">
+
+                <i class="fa-solid fa-plus"></i>
+                [[#{categoria.agregar}]]
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade"
+         id="agregarCategoriaModal"
+         tabindex="-1"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <div class="modal-header bg-info text-white">
+
+                    <h1 class="modal-title fs-5"
+                        id="exampleModalLabel">
+
+                        <i class="fa-solid fa-layer-group"></i>
+                        [[#{categoria.agregar}]]
+
+                    </h1>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close">
+                    </button>
+
+                </div>
+
+                <form th:action="@{/categoria/guardar}"
+                      th:object="${categoria}"
+                      class="was-validated"
+                      enctype="multipart/form-data"
+                      method="post">
+
+                    <div class="modal-body">
+
+                        <div class="mb-3">
+
+                            <label>[[#{categoria.descripcion}]]</label>
+
+                            <input type="text"
+                                   name="descripcion"
+                                   class="form-control"
+                                   required="true"/>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label>[[#{categoria.activo}]]</label>
+
+                            <input type="checkbox"
+                                   name="activo"
+                                   class="form-check-input"/>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label>[[#{categoria.imagen}]]</label>
+
+                            <input type="file"
+                                   name="imagenFile"
+                                   onchange="mostrarImagen(this);"
+                                   class="form-control"/>
+
+                            <img id="blah"
+                                 src="#"
+                                 alt="imagen de categoria"
+                                 height="200"/>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal">
+
+                            <i class="fa-solid fa-xmark"></i>
+                            [[#{accion.cerrar}]]
+
+                        </button>
+
+                        <button type="submit"
+                                class="btn btn-primary">
+
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            [[#{accion.guardar}]]
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- fragmento 2 para el listado de categorias -->
+<section th:fragment="listado" class="p-3">
+
+</section>
+
+<!-- 3 Fragmento que se utiliza en la página modifica.html -->
+<section th:fragment="editar">
+
+</section>
+
+<!-- 4 fragmento que se utiliza para confirmar que se desea eliminar una categoria -->
+<section th:fragment="confirmarEliminar">
+
+</section>
