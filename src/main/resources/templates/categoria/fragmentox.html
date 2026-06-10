@@ -133,6 +133,54 @@
 <!-- fragmento 2 para el listado de categorias -->
 <section th:fragment="listado" class="p-3">
 
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-9">
+
+                <div class="card">
+
+                    <div class="card-header bg-primary text-white">
+                        <h4>[[#{categoria.listado}]]</h4>
+                    </div>
+
+                    <div class="card-body">
+
+                        <table class="table table-striped table-hover">
+
+                            <thead>
+                                <tr>
+                                    <th>[[#{categoria.descripcion}]]</th>
+                                    <th>[[#{categoria.activo}]]</th>
+                                    <th>[[#{categoria.imagen}]]</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr th:each="categoria : ${categorias}">
+                                    <td>[[${categoria.descripcion}]]</td>
+                                    <td>[[${categoria.activo}]]</td>
+                                    <td>
+                                        <img th:src="${categoria.rutaImagen}"
+                                             height="75"
+                                             alt="imagen categoria"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </section>
 
 <!-- 3 Fragmento que se utiliza en la página modifica.html -->
