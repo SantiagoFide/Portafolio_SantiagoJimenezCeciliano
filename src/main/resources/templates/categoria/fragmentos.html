@@ -2,201 +2,190 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head th:replace="~{general/plantilla :: head}"/>
 
-<!-- Fragmento #1 que irá en el head de todas las páginas -->
-<head th:fragment="head">
-    <title>TechShop</title>
-    <meta charset="UTF-8"/>
-    <link rel="icon" type="image/png" sizes="16x16" href="/fav/favicon-16x16.png"/>
-    <link rel="icon" type="image/png" sizes="32x32" href="/fav/favicon-32x32.png"/>
-    <link rel="icon" type="image/png" sizes="96x96" href="/fav/favicon-96x96.png"/>
-    <link rel="icon" type="image/png" sizes="256x256" href="/fav/favicon-256x256.png"/>
-    <link href="/webjars/bootstrap/5.3.7/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="/webjars/font-awesome/7.0.0/css/all.min.css" rel="stylesheet"/>
-    <script th:src="@{/js/rutinas.js}"></script>
-    <script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
-    <script src="/webjars/popper.js/2.11.7/umd/popper.min.js"></script>
-    <script src="/webjars/bootstrap/5.3.7/js/bootstrap.min.js"></script>
-    <link th:href="@{/css/estilos.css}" rel="stylesheet"/>
-</head>
-
-<body>
-
-    <!-- Fragmento #2 define el encabezado de las páginas -->
-    <header th:fragment="header" class="header">
-        <nav class="navbar navbar-expand-sm p-0">
-            <div class="container">
-                <a th:href="@{/}" class="navbar-brand">[[#{aplicacion.titulo}]]</a>
-                <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                    <ul class="navbar-nav">
-                        <li class="nav-item px-2">
-                            <a class="nav-link" th:href="@{/categoria/listado}">
-                                [[#{plantilla.categorias}]]
-                            </a>
-                        </li>
-                        <li class="nav-item px-2">
-                            <a class="nav-link" th:href="@{/producto/listado}">
-                                [[#{plantilla.productos}]]
-                            </a>
-                        </li>
-                        <li class="nav-item px-2">
-                            <a class="nav-link" th:href="@{/consultas/listado}">
-                                [[#{plantilla.consultas}]]
-                            </a>
-                        </li>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
-                               role="button" aria-expanded="false">
-                                [[#{plantilla.admin}]]
-                            </a>
-
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a class="dropdown-item" th:href="@{/usuario/listado}">
-                                        [[#{plantilla.usuarios}]]
-                                    </a>
-                                </li>
-
-                                <li class="submenu submenu-md dropend">
-                                    <a class="dropdown-item dropdown-toggle"
-                                       role="button"
-                                       data-bs-toggle="dropdown"
-                                       aria-expanded="false"
-                                       onclick="event.stopPropagation();">
-                                        [[#{plantilla.seguridad}]]
-                                    </a>
-
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item" th:href="@{/role/listado}">
-                                                [[#{plantilla.troles}]]
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" th:href="@{/usuario_rol/mantenimiento}">
-                                                [[#{plantilla.permisos}]]
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" th:href="@{/ruta/listado}">
-                                                [[#{plantilla.rutas}]]
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li>
-                                    <a class="dropdown-item" th:href="@{/constante/listado}">
-                                        [[#{plantilla.constantes}]]
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-
-                    <ul class="navbar-nav">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
-                               role="button" aria-expanded="false">
-                                [[#{plantilla.idioma}]]
-                            </a>
-
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" th:href="@{/(lang=es)}">Español</a></li>
-                                <li><a class="dropdown-item" th:href="@{/(lang=en)}">English</a></li>
-                                <li><a class="dropdown-item" th:href="@{/(lang=fr)}">Française</a></li>
-                                <li><a class="dropdown-item" th:href="@{/(lang=pt)}">Portugaise</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-
-                    <div id="resultBlock"></div>
+    <body>
+        <!-- fragmento 1 para Agregar categoria en ventana modal -->
+        <section th:fragment="agregar">
+            <!-- Button trigger modal -->
+            <div class='row py-4 mb-2 bg-light'>
+                <div class='col-md-1'></div>
+                <div class='col-md-3'>
+                    <button type="button" class="btn btn-primary"  sec:authorize="hasRole('ROLE_ADMIN')"
+                            data-bs-toggle="modal" data-bs-target="#agregarCategoriaModal">
+                        <i class="fa-solid fa-plus"></i> [[#{categoria.agregar}]]</button>
                 </div>
             </div>
-        </nav>
-
-        <section id="main-header" class="py-2 bg-success text-white">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h1>
-                            <i class="fas fa-cog"></i>
-                            [[#{plantilla.suTienda}]]
-                        </h1>
+            <!-- Modal -->
+            <div class="modal fade" id="agregarCategoriaModal"  tabindex="-1" 
+                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-info text-white">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                <i class="fa-solid fa-layer-group"></i> [[#{categoria.agregar}]]</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form th:action='@{/categoria/guardar}' th:object='${categoria}'
+                              class='was-validated' enctype="multipart/form-data" method="post">
+                            <div class="modal-body">
+                                <div class='mb-3'>
+                                    <label>[[#{categoria.descripcion}]]</label>
+                                    <input type="text" name='descripcion' class='form-control' required="true"/></div>
+                                <div class='mb-3'>
+                                    <label>[[#{categoria.activo}]]</label>
+                                    <input type="checkbox" name='activo' class='form-check-input'/></div>
+                                <div class='mb-3'>
+                                    <label>[[#{categoria.imagen}]]</label>
+                                    <input type="file" name='imagenFile' onchange='mostrarImagen(this);'
+                                           class='form-control'/>
+                                    <img id='blah' src='#' alt='imagen de categoría' height="200"/></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                    <i class="fa-solid fa-xmark"></i> [[#{accion.cerrar}]]</button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa-solid fa-floppy-disk"></i> [[#{accion.guardar}]]</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </section>
-    </header>
 
-    <!-- Fragmento #3 define el footer de las páginas -->
-    <footer th:fragment="footer" class="p-2 mt-5 bg-info text-white">
-        <p class="lead text-center">
-            [[#{plantilla.derechos}]] &COPY;
-        </p>
-    </footer>
-
-    <!-- Fragmento #4 muestra mensajes Toast -->
-    <section th:fragment="mostrarToast">
-        <div aria-live="polite" aria-atomic="true"
-             class="position-fixed top-50 start-50 translate-middle"
-             style="z-index: 1080;">
-
-            <div th:if="${error}" class="toast show"
-                 role="alert"
-                 aria-live="assertive"
-                 aria-atomic="true"
-                 data-bs-autohide="true">
-
-                <div class="toast-header text-white bg-danger">
-                    <i class="fa-solid fa-bomb"></i>
-                    <strong class="me-auto">[[#{error}]]</strong>
+        <!-- fragmento 2 para el listado de categorias -->
+        <section th:fragment="listado" class="p-3">
+            <div class="row p-3">
+                <div class="col-md-9">
+                    <div class="card p-2">
+                        <div class="card-header"><h4>[[#{categoria.listado}]]</h4></div>
+                        <div class="card-body">
+                            <div th:if="${categorias != null and !categorias.empty}">
+                                <table class="table table-striped table-hover">
+                                    <thead><tr><th>#</th>
+                                            <th>[[#{categoria.descripcion}]]</th>
+                                            <th>[[#{categoria.imagen}]]</th>
+                                            <th>[[#{categoria.activo}]]</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="c : ${categorias}">
+                                            <td>[[${c.idCategoria}]]</td>
+                                            <td>[[${c.descripcion}]]</td>
+                                            <td><img th:src="@{${c.rutaImagen}}" alt="noData" height="75"/></td>
+                                            <td th:text="${c.activo} ? 'Activa':'Inactiva'"></td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger"
+                                                        data-bs-toggle="modal" data-bs-target="#confirmModal"
+                                                        th:data-bs-id="${c.idCategoria}"
+                                                        th:data-bs-descripcion="${c.descripcion}">
+                                                    <i class="fa-solid fa-trash"></i> [[#{accion.eliminar}]]
+                                                </button>                                           
+                                                <a th:href="@{/categoria/modificar/}+${c.idCategoria}" class="btn btn-warning">
+                                                    <i class="fas fa-pencil-alt"></i> [[#{accion.actualizar}]]
+                                                </a>                                                
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table></div>
+                            <div class="text-center p-2" th:if="${categorias == null or categorias.empty}">
+                                <span>[[#{lista.vacia}]]</span></div>
+                        </div>
+                    </div>
                 </div>
+                <div class="col-md-3">
+                    <div class="card text-center bg-success text-white mb-3">
+                        <div class="card-body"><h3>[[#{categoria.total}]]</h3>
+                            <h4 class="fs-2"><i class="fas fa-layer-group"></i> [[${totalCategorias}]]</h4>
+                        </div></div>
+                </div>
+            </div>
+        </section>
 
-                <div class="toast-body">
-                    <p>[[${error}]]</p>
+        <!-- 3 Fragmento que se utiliza en la página modifca.html -->
+        <section th:fragment="editar">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <form method="POST" th:action="@{/categoria/guardar}" 
+                          th:object="${categoria}" class="was-validated" enctype="multipart/form-data">
+                        <input type="hidden" name="idCategoria" th:field="*{idCategoria}"/>
+                        <input type="hidden" name="rutaImagen" th:field="*{rutaImagen}"/>
+                        <div class="row py-4 mb-4 bg-light">
+                            <div class="col-md-4 d-grid">
+                                <a th:href="@{/categoria/listado}" class="btn btn-primary">
+                                    <i class="fas fa-arrow-left"></i> [[#{accion.regresar}]]</a>
+                            </div>                                
+                            <div class="col-md-4 d-grid">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-check"></i> [[#{accion.guardar}]]</button>
+                            </div>
+                        </div>                        
+                        <div class="row">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-header"><h4>[[#{accion.actualizar}]]</h4></div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="descripcion">[[#{categoria.descripcion}]]</label>
+                                            <input type="text" class="form-control" name="descripcion" 
+                                                   th:field="*{descripcion}" required="true"/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="activo">[[#{categoria.activo}]]</label>
+                                            <input class="form-check-input" type="checkbox" 
+                                                   name="activo" id="activo" th:field="*{activo}"/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="imagen">[[#{categoria.imagen}]]</label>
+                                            <input class="form-control" type="file" name="imagenFile"
+                                                   onchange="mostrarImagen(this);" />
+                                            <img id="blah" th:src="@{${categoria.rutaImagen}}" alt="your image" height="200"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
 
-                    <div class="mt-2 pt-2 border-top text-center">
-                        <button type="button"
-                                class="btn btn-secondary btn-sm"
-                                data-bs-dismiss="toast">
-                            [[#{accion.cerrar}]]
-                        </button>
+        <!-- 4 fragmento que se utiliza para confirmar que se desea eliminar una categoria -->
+        <section th:fragment="confirmarEliminar">
+            <div class="modal fade" 
+                 id="confirmModal" 
+                 tabindex="-1" 
+                 aria-labelledby="modalLabel" 
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered custom-modal-animation">
+                    <div class="modal-content animate-slide-up">
+                        <form th:action="@{/categoria/eliminar}" th:object="${categoria}" method="post">
+                            <input type="hidden" name="idCategoria" id="modalId"/>
+                            <div class="modal-header bg-warning text-white">
+                                <h5 class="modal-title" id="modalLabel">
+                                    <i class="fa-solid fa-circle-radiation"></i> [[#{accion.confirmar}]]
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>[[#{accion.confirmar.texto1}]] <span id="modalDescripcion"></span>?</p>
+                                <h6>[[#{accion.confirmar.texto2}]]</h6>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fa-solid fa-trash"></i> [[#{accion.eliminar}]]
+                                </button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                    <i class="fa-solid fa-xmark"></i> [[#{accion.cerrar}]]
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <div th:if="${todoOk}" class="toast show"
-                 role="status"
-                 aria-live="polite"
-                 aria-atomic="true"
-                 data-bs-autohide="true">
-
-                <div class="toast-header text-white bg-success">
-                    <i class="fa-solid fa-square-check"></i>
-                    <strong class="me-auto">[[#{atencion}]]</strong>
-                </div>
-
-                <div class="toast-body">
-                    <p>[[${todoOk}]]</p>
-
-                    <div class="mt-2 pt-2 border-top text-center">
-                        <button type="button"
-                                class="btn btn-secondary btn-sm"
-                                data-bs-dismiss="toast">
-                            [[#{accion.cerrar}]]
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-</body>
+    </body>
 </html>
