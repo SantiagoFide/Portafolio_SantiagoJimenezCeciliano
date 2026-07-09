@@ -1,32 +1,14 @@
 <!DOCTYPE html>
-
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-
-    <head th:replace="~{general/fragmentos :: head}"
-    </head>
-
+    <head th:replace="~{general/fragmentos :: head}"/>
     <body>
+        <header th:replace="~{general/fragmentos :: header}"/>
 
-        <header th:replace="~{general/fragmentos :: header}"></header>
-
-        <section class="bg-success text-white text-center p-4">
-
-            <h1>
-                <i class="fa-solid fa-gear"></i>
-
-                <span th:text="#{plantilla.tienda}">
-                    Su tienda en línea
-                </span>
-            </h1>
-
-        </section>
-
-        <br/>
-
-        <footer th:replace="~{general/fragmentos :: footer}"></footer>
-
+        <section th:replace="~{consultas/fragmentos :: tabs}"/>
+        <section th:replace="~{consultas/fragmentos :: tarjetas}"/>
+        
+        <footer th:replace="~{general/fragmentos :: footer}"/>
     </body>
-
 </html>
