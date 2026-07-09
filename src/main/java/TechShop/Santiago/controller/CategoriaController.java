@@ -1,17 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package TechShop.Santiago.controller;
 
 import TechShop.Santiago.domain.Categoria;
 import TechShop.Santiago.service.CategoriaService;
+import jakarta.validation.Valid;
 import java.util.Locale;
+import java.util.Optional;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,7 +29,7 @@ public class CategoriaController {
     }
 
     @GetMapping("/listado")
-    public String inicio(Model model) {
+    public String listado(Model model) {
         var categorias = categoriaService.getCategorias(false);
         model.addAttribute("categorias", categorias);
         model.addAttribute("totalCategorias", categorias.size());
@@ -39,11 +37,12 @@ public class CategoriaController {
     }
 
     @PostMapping("/guardar")
-    public String guardar(Categoria categoria,
+    public String guardar(@Valid Categoria categoria,
             @RequestParam("imagenFile") MultipartFile imagenFile,
             RedirectAttributes redirectAttributes) {
 
         categoriaService.save(categoria, imagenFile);
+
         redirectAttributes.addFlashAttribute("todoOk",
                 messageSource.getMessage("mensaje.actualizado", null, Locale.getDefault()));
 
@@ -77,18 +76,19 @@ public class CategoriaController {
     }
 
     @GetMapping("/modificar/{idCategoria}")
-    public String modificar(Categoria categoria, Model model,
+    public String modificar(@PathVariable("idCategoria") Integer idCategoria,
+            Model model,
             RedirectAttributes redirectAttributes) {
 
-        categoria = categoriaService.getCategoria(categoria.getIdCategoria());
+        Optional<Categoria> categoriaOpt = categoriaService.getCategoria(idCategoria);
 
-        if (categoria == null) {
+        if (categoriaOpt.isEmpty()) {
             redirectAttributes.addFlashAttribute("error",
                     messageSource.getMessage("categoria.error01", null, Locale.getDefault()));
             return "redirect:/categoria/listado";
         }
 
-        model.addAttribute("categoria", categoria);
+        model.addAttribute("categoria", categoriaOpt.get());
         return "/categoria/modifica";
     }
 }

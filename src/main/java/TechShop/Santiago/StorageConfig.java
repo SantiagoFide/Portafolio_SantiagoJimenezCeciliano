@@ -29,13 +29,9 @@ public class StorageConfig {
     @Bean
     public Storage storage() throws IOException {
         ClassPathResource resource = new ClassPathResource(jsonPath + File.separator + jsonFile);
-
         try (InputStream inputStream = resource.getInputStream()) {
             GoogleCredentials credentials = GoogleCredentials.fromStream(inputStream);
-            return StorageOptions.newBuilder()
-                    .setCredentials(credentials)
-                    .build()
-                    .getService();
+            return StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         }
     }
 }

@@ -4,6 +4,7 @@ import TechShop.Santiago.domain.Categoria;
 import TechShop.Santiago.repository.CategoriaRepository;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,8 +31,8 @@ public class CategoriaService {
     }
 
     @Transactional(readOnly = true)
-    public Categoria getCategoria(Integer idCategoria) {
-        return categoriaRepository.findById(idCategoria).orElse(null);
+    public Optional<Categoria> getCategoria(Integer idCategoria) {
+        return categoriaRepository.findById(idCategoria);
     }
 
     @Transactional
@@ -56,14 +57,19 @@ public class CategoriaService {
 
     @Transactional
     public void delete(Integer idCategoria) {
+
+        // Verifica si la categoría existe antes de intentar eliminarla
         if (!categoriaRepository.existsById(idCategoria)) {
-            throw new IllegalArgumentException("La categoria con ID " + idCategoria + " no existe.");
+            throw new IllegalArgumentException(
+                    "La categoria con ID " + idCategoria + " no existe.");
         }
 
         try {
             categoriaRepository.deleteById(idCategoria);
+
         } catch (DataIntegrityViolationException e) {
-            throw new IllegalStateException("No se puede eliminar la categoria. Tiene datos asociados.", e);
+            throw new IllegalStateException(
+                    "No se puede eliminar la categoria. Tiene datos asociados.", e);
         }
     }
 }
