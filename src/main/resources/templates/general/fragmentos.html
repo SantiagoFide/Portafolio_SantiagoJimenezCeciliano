@@ -319,7 +319,11 @@
 
                                 <span class="nav-link">
 
-                                    <i class="fas fa-user"></i>
+                                    <img th:src="${session.imagenUsuario}"
+                                         alt="Imagen del usuario"
+                                         height="40"
+                                         width="40"
+                                         class="rounded-circle"/>
 
                                     <span sec:authentication="name"
                                           class="ms-1">
