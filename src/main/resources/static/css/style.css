@@ -1,82 +1,36 @@
-/*
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
-*/
-/* 
-    Created on : 1 jun 2026, 0:01:35
-    Author     : compr
-*/
-
-* {
-    margin: 0;
-    box-sizing: border-box;
+.card {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    z-index: 1;
+}
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-body {
-    font-family: sans-serif;
-    min-height: 100vh;
-    padding-bottom: 60px;
-}
+@media print {
+    /* 1. La regla principal: fija la cabecera en cada página */
+    thead {
+        display: table-header-group;
+    }
 
-header {
-    background-color: #5f5cf1;
-}
+    /* 2. Regla de compatibilidad (opcional pero recomendada) */
+    tr {
+        page-break-inside: avoid;
+    }
+    
+    /* 3. Asegura que la tabla no tenga márgenes extraños que rompan el thead */
+    table {
+        margin: 0 !important;
+    }
+    
+    /* [Opcional] Si está usando Bootstrap/cards para la tabla, elimine los bordes*/
+    .card, .card-body {
+        border: none !important;
+        box-shadow: none !important;
+    }
 
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    font-size: 35px;
-    font-weight: bold;
-    padding: 0 40px;
-    color: white;
-    text-decoration: none;
-}
-
-.nav-menu {
-    display: flex;
-    margin-right: 40px;
-    list-style: none;
-}
-
-.nav-menu-item {
-    font-size: 18px;
-    margin: 0 10px;
-    text-transform: uppercase;
-}
-
-.nav-link {
-    text-decoration: none;
-}
-
-.menu-item {
-    padding: 8px 12px;
-    border-radius: 8px;
-}
-
-.menu-item:hover {
-    background-color: green;
-    transition: 0.5s;
-}
-
-section {
-    background-color: #d68297;
-    padding: 20px;
-    min-height: 300px;
-}
-
-aside {
-    background-color: #ecd6b7;
-    padding: 20px;
-}
-
-footer {
-    background-color: black;
-    color: white;
-    text-align: center;
-    width: 100%;
-    padding: 12px;
+    /* Oculta elementos de navegación, como se explicó antes */
+    .d-print-none, .navbar, .footer {
+        display: none !important;
+    }
 }
