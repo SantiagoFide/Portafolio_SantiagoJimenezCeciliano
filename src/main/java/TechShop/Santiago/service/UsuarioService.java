@@ -113,7 +113,10 @@ public class UsuarioService {
         guardarImagen(usuario, imagenFile);
 
         if (asignarRol) {
-            asignarRolPorUsername(usuario.getUsername(), "USER");
+            asignarRolPorUsername(
+                    usuario.getUsername(),
+                    "USER"
+            );
         }
     }
 
@@ -139,6 +142,7 @@ public class UsuarioService {
                             .equals(idUsuarioActual);
 
             if (usuarioNuevo || usuarioDiferente) {
+
                 throw new DataIntegrityViolationException(
                         "El correo ya está en uso por otro usuario."
                 );
@@ -159,8 +163,11 @@ public class UsuarioService {
         }
 
         if (encriptaClave) {
+
             usuario.setPassword(
-                    passwordEncoder.encode(usuario.getPassword())
+                    passwordEncoder.encode(
+                            usuario.getPassword()
+                    )
             );
         }
     }
@@ -170,7 +177,9 @@ public class UsuarioService {
             boolean encriptaClave) {
 
         Usuario usuarioExistente = usuarioRepository
-                .findById(usuario.getIdUsuario().intValue())
+                .findById(
+                        usuario.getIdUsuario().intValue()
+                )
                 .orElseThrow(() ->
                         new IllegalArgumentException(
                                 "Usuario a modificar no encontrado."
@@ -220,6 +229,7 @@ public class UsuarioService {
                     );
 
             usuario.setRutaImagen(rutaImagen);
+
             usuarioRepository.save(usuario);
 
         } catch (IOException e) {
@@ -235,12 +245,14 @@ public class UsuarioService {
     public void delete(Integer idUsuario) {
 
         if (idUsuario == null) {
+
             throw new IllegalArgumentException(
                     "El ID del usuario es obligatorio."
             );
         }
 
         if (!usuarioRepository.existsById(idUsuario)) {
+
             throw new IllegalArgumentException(
                     "El usuario con ID "
                     + idUsuario
@@ -286,8 +298,48 @@ public class UsuarioService {
                 );
 
         if (!usuario.getRoles().contains(rol)) {
+
             usuario.getRoles().add(rol);
         }
+
+        return usuarioRepository.save(usuario);
+    }
+
+    // =====================================================
+    // GESTIÓN DE ROLES
+    // =====================================================
+
+    @Transactional(readOnly = true)
+    public List<String> getRolesNombres() {
+
+        return rolRepository
+                .findAll()
+                .stream()
+                .map(Rol::getRol)
+                .toList();
+    }
+
+    @Transactional
+    public Usuario eliminarRol(
+            String username,
+            Integer idRol) {
+
+        Optional<Usuario> usuarioOpt
+                = usuarioRepository.findByUsername(username);
+
+        if (usuarioOpt.isEmpty()) {
+
+            throw new RuntimeException(
+                    "Usuario no encontrado: "
+                    + username
+            );
+        }
+
+        Usuario usuario = usuarioOpt.get();
+
+        usuario.getRoles().removeIf(
+                rol -> rol.getIdRol().equals(idRol)
+        );
 
         return usuarioRepository.save(usuario);
     }
